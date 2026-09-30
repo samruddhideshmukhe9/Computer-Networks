@@ -4,23 +4,17 @@ using namespace std;
 
 int main()
 {
-    string data, generator, temp;
+    string received, generator, temp;
 
-    cout << "Enter Data: ";
-    cin >> data;
+    cout << "Enter Received Data: ";
+    cin >> received;
 
     cout << "Enter Generator: ";
     cin >> generator;
 
+    temp = received;
 
-    temp = data;
-
-    for (int i = 0; i < generator.length() - 1; i++)
-    {
-        temp = temp + "0";
-    }
-
-
+    // Modulo-2 division
     for (int i = 0; i <= temp.length() - generator.length(); i++)
     {
         if (temp[i] == '1')
@@ -35,13 +29,23 @@ int main()
         }
     }
 
-    string crc = temp.substr(
-        data.length(),
-        generator.length() - 1
-    );
+    // Check remainder
+    bool error = false;
 
-    cout << "\nCRC = " << crc << endl;
-    cout << "Transmitted Data = " << data + crc << endl;
+    for (int i = temp.length() - (generator.length() - 1);
+         i < temp.length(); i++)
+    {
+        if (temp[i] == '1')
+        {
+            error = true;
+            break;
+        }
+    }
+
+    if (error)
+        cout << "\nError Detected!" << endl;
+    else
+        cout << "\nNo Error Detected." << endl;
 
     return 0;
 }
